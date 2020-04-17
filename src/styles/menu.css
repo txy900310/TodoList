@@ -1,0 +1,48 @@
+.ROM {
+  text-align: center;
+}
+.menu {
+  margin: 0;
+  padding: 0;
+}
+.menu-item {
+  height: 4rem;
+  font-size: 2rem;
+  color: white;
+  position: relative;
+  margin: 0;
+  padding-left: 20px;
+  background-image: linear-gradient(to bottom, lightslategray, #2c3e50);
+}
+.item-style {
+  height: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.menu-item .delete{
+  width: 4rem;
+  height: 4rem;
+  line-height: 4rem;
+  background: #e01212;
+  font-size: 2rem;
+  color: #fff;
+  text-align: center;
+  position: absolute;
+  top:0;
+  right: -4rem;
+}
+.menu-item[data-type="0"]{
+  transform: translate3d(0,0,0);
+}
+.menu-item[data-type="1"]{
+  transform: translate3d(-4rem,0,0);
+}
+.list-num {
+  background-image: linear-gradient(to bottom, lightslategray, slategray);
+  height: 4rem;
+  width: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
