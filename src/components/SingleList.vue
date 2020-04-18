@@ -47,7 +47,6 @@ export default {
     }
   },
   created () {
-    console.log(this.$route.params.id)
     let lists = JSON.parse(localStorage['lists'])
     let index = lists.length - Number(this.$route.params.id) - 1
     this.todos = lists[index].todos
@@ -78,7 +77,6 @@ export default {
       // 记录结束位置
       this.endX = e.changedTouches[0].clientX
       // 左滑
-      console.log(this.startX - this.endX)
       if (parentElement.dataset.type === '0' && this.startX - this.endX > 30) {
         this.showDel = {}
         this.showDel[index] = true
@@ -105,10 +103,17 @@ export default {
     },
     addTodo (e) {
       if (e.type === 'click') {
-        let sp = document.getElementById('list_input')
+        let sp = document.getElementById('todo_input')
         if (sp.contains(event.target)) {
           return
         }
+      }
+      if (this.newTodo === '') {
+        return this.$notify({
+          title: '',
+          message: '名称不能为空',
+          type: 'warning'
+        })
       }
       let len = this.todos.length
       this.todos.unshift({

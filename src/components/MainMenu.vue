@@ -59,7 +59,6 @@ export default {
   },
   mounted () {
     this.getLists()
-    console.log(this.$router)
   },
   methods: {
     touchStartY (e) {

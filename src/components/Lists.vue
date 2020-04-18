@@ -52,7 +52,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$route)
     this.lists = JSON.parse(localStorage['lists'])
   },
   methods: {
@@ -124,6 +123,13 @@ export default {
         if (sp.contains(event.target)) {
           return
         }
+      }
+      if (this.newList === '') {
+        return this.$notify({
+          title: '',
+          message: '名称不能为空',
+          type: 'warning'
+        })
       }
       this.queryList(this.newList)
         .then(() => {
