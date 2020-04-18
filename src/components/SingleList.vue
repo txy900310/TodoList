@@ -16,8 +16,7 @@
               class="menu-item"
               v-for="(item,index) in todos"
               :key="index"
-              :data-type="0"
-              @click="enterItem(item)"
+              :data-type="item.finished"
             >
             <div class="item-style" @touchstart.capture="touchStartX"
               @touchend.capture="touchEndX" :data-index="index">
@@ -68,6 +67,9 @@ export default {
       if (this.startY - this.endY > 10) {
         this.addAble = false
       }
+      if (this.startY - this.endY > 300) {
+        this.clearTodo()
+      }
       this.startY = 0
       this.endY = 0
     },
@@ -90,6 +92,10 @@ export default {
         this.restSlide()
         parentElement.dataset.type = 0
       }
+      if (parentElement.dataset.type === '0' && this.startX - this.endX < -50) {
+        parentElement.dataset.type = -1
+        this.finishTodo(index)
+      }
       this.startX = 0
       this.endX = 0
       this.$forceUpdate()
@@ -98,8 +104,28 @@ export default {
       let listItems = document.querySelectorAll('.menu-item')
       // 复位
       for (let i = 0; i < listItems.length; i++) {
-        listItems[i].dataset.type = 0
+        if (listItems[i].dataset.type >= 0) {
+          listItems[i].dataset.type = 0
+        }
       }
+    },
+    finishTodo (index) {
+      this.todos[index].finished = -1
+      let done = this.todos.splice(index, 1)[0]
+      this.todos.push(done)
+      this.updateLists()
+    },
+    clearTodo () {
+      let toDel = []
+      this.todos.forEach((todo, index) => {
+        if (todo.finished === -1) {
+          toDel.push(index)
+        }
+      })
+      for (let i = 0; i < this.todos.length; i++) {
+        this.todos.splice(toDel[i] - i, 1)
+      }
+      this.updateLists()
     },
     addTodo (e) {
       if (e.type === 'click') {
@@ -119,12 +145,9 @@ export default {
       this.todos.unshift({
         id: len,
         text: this.newTodo,
-        finished: false
+        finished: 0
       })
-      let lists = JSON.parse(localStorage['lists'])
-      let index = lists.length - Number(this.$route.params.id) - 1
-      lists[index].todos = this.todos
-      localStorage['lists'] = JSON.stringify(lists)
+      this.updateLists()
       this.newTodo = ''
       this.addAble = false
     },
@@ -135,17 +158,13 @@ export default {
       for (let i = 0; i < this.todos.length; i++) {
         this.todos[i].id = this.todos.length - 1 - i
       }
+      this.updateLists()
+    },
+    updateLists () {
       let lists = JSON.parse(localStorage['lists'])
       let num = lists.length - Number(this.$route.params.id) - 1
       lists[num].todos = this.todos
       localStorage['lists'] = JSON.stringify(lists)
-    },
-    enterItem (item) {
-      if (item.finished) {
-        item.finished = false
-      } else {
-        item.finished = true
-      }
     }
   }
 }

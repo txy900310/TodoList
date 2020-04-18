@@ -38,6 +38,16 @@
 .menu-item[data-type="1"]{
   transform: translate3d(-4rem,0,0);
 }
+.menu-item[data-type="-1"]{
+  background-image: none;
+  background-color: black;
+  text-decoration: line-through;
+  color: gray;
+}
+.menu-item[data-fnished="0"]{
+  background-image: linear-gradient(to bottom, lightslategray, #2c3e50);
+  text-decoration: none;
+}
 .list-num {
   background-image: linear-gradient(to bottom, lightslategray, slategray);
   height: 4rem;
